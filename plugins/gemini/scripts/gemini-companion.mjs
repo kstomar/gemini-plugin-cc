@@ -104,7 +104,7 @@ function parseArgs(raw) {
 // ---------- gemini invocation ----------
 
 function geminiBaseArgs(flags) {
-  const args = [];
+  const args = ["--skip-trust"];
   if (flags.model) args.push("-m", flags.model);
   return args;
 }
@@ -156,7 +156,7 @@ function cmdSetup(raw) {
     const v = spawnSync("gemini", ["--version"], { encoding: "utf8" });
     version = (v.stdout || "").trim() || null;
     // A cheap auth probe: a trivial prompt. Non-zero / auth error => not ready.
-    const probe = spawnSync("gemini", ["-p", "reply with: ok"], {
+    const probe = spawnSync("gemini", ["--skip-trust", "-p", "reply with: ok"], {
       encoding: "utf8",
       timeout: 30000,
     });
